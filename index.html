@@ -73,6 +73,17 @@
             }
         };
 
+        canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault(); // Stop the page from scrolling while drawing
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor((touch.clientX - rect.left) / (rect.width / res));
+    const y = Math.floor((touch.clientY - rect.top) / (rect.height / res));
+    
+    if (mode === 'erase') ctx.clearRect(x, y, 1, 1);
+    else { ctx.fillStyle = 'black'; ctx.fillRect(x, y, 1, 1); }
+}, { passive: false });
+
         document.getElementById('upload').onchange = (e) => {
             const reader = new FileReader();
             reader.onload = (event) => {
